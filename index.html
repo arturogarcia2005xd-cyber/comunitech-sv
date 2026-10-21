@@ -18,11 +18,10 @@
 </head>
 <body id="appBody" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500">
 
-  <!-- 1. BARRA DE NAVEGACIÓN PRINCIPAL -->
+  <!-- BARRA DE NAVEGACIÓN -->
   <header id="mainHeader" class="bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md transition-all duration-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-2">
       
-      <!-- LOGOTIPO -->
       <div class="flex items-center gap-2.5">
         <div id="brandIconBg" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shadow-sm transition-colors duration-500">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H7m4 0v10"></path></svg>
@@ -35,7 +34,6 @@
         </div>
       </div>
 
-      <!-- ESTADO DE SESIÓN -->
       <div id="navRight" class="flex items-center gap-2">
         <div id="publicContact" class="hidden lg:flex items-center gap-4 text-xs font-bold text-slate-200 border-r pr-4 border-slate-700">
           <span class="flex items-center gap-1.5"><span class="text-red-400">Tel:</span> <span class="text-white">911</span></span>
@@ -63,9 +61,8 @@
   <!-- CONTENEDOR PRINCIPAL -->
   <main class="flex-grow">
 
-    <!-- 2. VISTA DE LOGIN -->
+    <!-- VISTA LOGIN -->
     <section id="viewLogin" class="relative py-6 sm:py-10 px-4">
-      
       <div class="max-w-5xl mx-auto rounded-3xl bg-slate-900 text-white p-5 sm:p-12 shadow-2xl overflow-hidden relative mb-10 border border-slate-800">
         <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-blue-950/80 z-0"></div>
         
@@ -82,9 +79,7 @@
             Ingresa tu DUI o correo institucional con tu contraseña para acceder al sistema.
           </p>
 
-          <!-- TARJETA DE LOGIN -->
           <div class="max-w-md mx-auto pt-2">
-            
             <div class="flex rounded-2xl bg-slate-950/80 p-1.5 border border-slate-800 mb-4 shadow-inner">
               <button type="button" id="btnTypeCiudadano" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-blue-600 text-white transition shadow cursor-pointer">
                 Soy Ciudadano (DUI)
@@ -95,8 +90,6 @@
             </div>
 
             <form id="formLogin" class="bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/10 shadow-2xl text-left space-y-4">
-              
-              <!-- ENTRADA DUI / CORREO -->
               <div id="boxFieldLogin">
                 <div class="flex justify-between items-center mb-1.5">
                   <label id="lblLoginInput" class="block text-xs font-bold text-slate-200">Número de DUI *</label>
@@ -105,13 +98,11 @@
                 <input type="text" id="loginIdentifier" maxlength="10" required placeholder="00000000-0" autocomplete="off" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 sm:p-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition font-mono">
               </div>
 
-              <!-- NOMBRE AUTOCOMPLETADO / REGISTRO NUEVO -->
               <div id="boxAutoNombre">
                 <label class="block text-xs font-bold text-slate-200 mb-1.5">Nombre Completo Registrado *</label>
                 <input type="text" id="loginNombreAuto" required readonly placeholder="Ingresa tu DUI para verificar..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-xs text-slate-400 font-semibold outline-none transition cursor-not-allowed">
               </div>
 
-              <!-- FOTO DE PERFIL (OPCIONAL) -->
               <div id="boxAvatarUpload" class="space-y-1.5">
                 <label class="block text-xs font-bold text-slate-200">Foto de Perfil (Opcional)</label>
                 <div class="flex items-center gap-3">
@@ -120,7 +111,6 @@
                 </div>
               </div>
 
-              <!-- SELECTOR DE INSTITUCIÓN -->
               <div id="boxSelectInstitucion" class="hidden">
                 <label class="block text-xs font-bold text-slate-200 mb-1.5">Institución Encargada</label>
                 <select id="loginRoleInst" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm text-white font-medium outline-none focus:border-blue-400 transition">
@@ -134,7 +124,6 @@
                 </select>
               </div>
 
-              <!-- CAMPO DE CONTRASEÑA -->
               <div>
                 <div class="flex justify-between items-center mb-1.5">
                   <label class="block text-xs font-bold text-slate-200">Contraseña *</label>
@@ -148,13 +137,11 @@
               </button>
             </form>
           </div>
-
         </div>
       </div>
-
     </section>
 
-    <!-- 3. PANEL CIUDADANO -->
+    <!-- VISTA CIUDADANO -->
     <section id="viewCiudadano" class="hidden max-w-5xl mx-auto p-3 sm:p-6 space-y-6">
       <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl flex justify-between items-center">
         <div class="space-y-1">
@@ -165,7 +152,6 @@
 
       <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/80 p-4 sm:p-8">
         <form id="formReporteCiudadano" class="space-y-5">
-          
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Nombre o título del problema *</label>
             <input type="text" id="repTitulo" required placeholder="Ej. Tubería rota en mi pasaje o bache en carretera" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition">
@@ -250,9 +236,8 @@
       </div>
     </section>
 
-    <!-- 4. PANELES INSTITUCIONALES -->
+    <!-- VISTA INSTITUCIONES -->
     <section id="viewInstitucion" class="hidden max-w-5xl mx-auto p-3 sm:p-6 space-y-6">
-      
       <div id="panelHeader" class="p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl flex justify-between items-center transition-all duration-500 border">
         <div class="space-y-1 max-w-2xl">
           <span id="panelSub" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full inline-block mb-1"></span>
@@ -287,12 +272,10 @@
         
         <div id="listaInstitucional" class="space-y-4"></div>
       </div>
-
     </section>
 
   </main>
 
-  <!-- FOOTER -->
   <footer id="mainFooter" class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800 transition-colors duration-500 mt-8">
     <div class="max-w-5xl mx-auto px-4 space-y-1">
       <p class="font-bold text-slate-200">ComuniTechSV &copy; 2026 — Sistema Territorial de Incidencias</p>
@@ -349,7 +332,6 @@
           });
         } catch (e) {}
       },
-      // CONSULTA DE REPORTES DESDE SUPABASE
       async obtenerReportes() {
         try {
           const res = await fetch(`${SUPABASE_URL}/rest/v1/reportes?select=*&order=id.desc`, {
@@ -376,10 +358,9 @@
           return [];
         }
       },
-      // INSERCIÓN DE NUEVO REPORTE EN SUPABASE
       async crearReporte(rep) {
         try {
-          await fetch(`${SUPABASE_URL}/rest/v1/reportes`, {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/reportes`, {
             method: 'POST',
             headers: {
               'apikey': SUPABASE_KEY,
@@ -401,9 +382,17 @@
               url_foto: rep.urlFoto
             })
           });
-        } catch (e) {}
+          if (!res.ok) {
+            const errText = await res.text();
+            alert("Error al guardar en Supabase: " + errText);
+            return false;
+          }
+          return true;
+        } catch (e) {
+          alert("Error de conexión al guardar el reporte.");
+          return false;
+        }
       },
-      // ACTUALIZACIÓN DEL ESTADO DE REPORTE EN SUPABASE
       async actualizarEstado(id, nuevoEstado) {
         try {
           await fetch(`${SUPABASE_URL}/rest/v1/reportes?id=eq.${id}`, {
@@ -796,7 +785,6 @@
           return;
         }
 
-        // VALIDACIÓN DE CONTRASEÑA
         if (perfilExistenteGuardado && perfilExistenteGuardado.password) {
           if (perfilExistenteGuardado.password !== inputPassword) {
             alert("Contraseña incorrecta para el DUI ingresado.");
@@ -901,13 +889,15 @@
         urlFoto: imagenBase64
       };
 
-      await supabaseRest.crearReporte(nuevo);
-      alert(`Reporte enviado con éxito. El sistema le asignó la prioridad: ${nuevo.prioridad}`);
-      await renderCiudadano();
-      e.target.reset();
-      coordsGPS = null;
-      document.getElementById('gpsStatus').textContent = "Haz clic en el botón para capturar la posición.";
-      document.getElementById('containerPreview').classList.add('hidden');
+      const guardadoExitoso = await supabaseRest.crearReporte(nuevo);
+      if (guardadoExitoso) {
+        alert(`Reporte enviado con éxito a Supabase. Prioridad asignada: ${nuevo.prioridad}`);
+        await renderCiudadano();
+        e.target.reset();
+        coordsGPS = null;
+        document.getElementById('gpsStatus').textContent = "Haz clic en el botón para capturar la posición.";
+        document.getElementById('containerPreview').classList.add('hidden');
+      }
     }
 
     async function renderCiudadano() {
