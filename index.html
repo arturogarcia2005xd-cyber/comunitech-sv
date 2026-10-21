@@ -327,7 +327,6 @@
           return null;
         }
       },
-      // GUARDADO CON PERSISTENCIA DE CONTRASEÑA EN SUPABASE
       async guardarPerfil(dui, nombre, pass, avatar) {
         try {
           const payload = {
@@ -349,6 +348,74 @@
             body: JSON.stringify(payload)
           });
         } catch (e) {}
+      },
+      // CONSULTA DE REPORTES DESDE SUPABASE
+      async obtenerReportes() {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/reportes?select=*&order=id.desc`, {
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+          });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data.map(r => ({
+            id: r.id,
+            duiCiudadano: r.dui_ciudadano,
+            titulo: r.titulo,
+            ciudadano: r.ciudadano,
+            institucion: r.institucion,
+            prioridad: r.prioridad,
+            scoreAlgoritmo: r.score_algoritmo,
+            desc: r.descripcion,
+            lat: r.latitud,
+            lng: r.longitud,
+            estado: r.estado,
+            fecha: r.fecha,
+            urlFoto: r.url_foto
+          }));
+        } catch (e) {
+          return [];
+        }
+      },
+      // INSERCIÓN DE NUEVO REPORTE EN SUPABASE
+      async crearReporte(rep) {
+        try {
+          await fetch(`${SUPABASE_URL}/rest/v1/reportes`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              dui_ciudadano: rep.duiCiudadano,
+              titulo: rep.titulo,
+              ciudadano: rep.ciudadano,
+              institucion: rep.institucion,
+              prioridad: rep.prioridad,
+              score_algoritmo: rep.scoreAlgoritmo,
+              descripcion: rep.desc,
+              latitud: rep.lat,
+              longitud: rep.lng,
+              estado: rep.estado,
+              fecha: rep.fecha,
+              url_foto: rep.urlFoto
+            })
+          });
+        } catch (e) {}
+      },
+      // ACTUALIZACIÓN DEL ESTADO DE REPORTE EN SUPABASE
+      async actualizarEstado(id, nuevoEstado) {
+        try {
+          await fetch(`${SUPABASE_URL}/rest/v1/reportes?id=eq.${id}`, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ estado: nuevoEstado })
+          });
+        } catch (e) {}
       }
     };
 
@@ -366,18 +433,7 @@
     let gravedadCalculada = "Leve";
     let scoreAlgoritmoGlobal = 1;
 
-    const padronMemoriaLocal = {
-      "01234567-8": { nombre: "Carlos Eduardo Mendoza", pass: "123456" },
-      "08765432-1": { nombre: "María José Ramos", pass: "123456" },
-      "05544332-9": { nombre: "Roberto Antonio Gómez", pass: "123456" }
-    };
-
-    // BASE GLOBAL DE REPORTES DE EJEMPLO INICIAL
-    let reportesBD = [
-      { id: 1, duiCiudadano: "01234567-8", titulo: "Poste de luz echando chispas", ciudadano: "Carlos Mendoza (01234567-8)", institucion: "CLESA", prioridad: "Importante", scoreAlgoritmo: 4, desc: "Cable suelto cerca de la cancha del Barrio El Centro", lat: "13.923000", lng: "-89.842000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80" },
-      { id: 2, duiCiudadano: "08765432-1", titulo: "Acopio de basura en el Mercado Central", ciudadano: "María Ramos (08765432-1)", institucion: "Alcaldia", prioridad: "Leve", scoreAlgoritmo: 2, desc: "Desechos acumulados afectando comercios locales", lat: "13.921400", lng: "-89.845000", estado: "En proceso", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" },
-      { id: 3, duiCiudadano: "05544332-9", titulo: "Fuego en maleza cerca de zona residencial", ciudadano: "Roberto Gómez (05544332-9)", institucion: "Bomberos", prioridad: "Emergencia 911", scoreAlgoritmo: 8, desc: "Incendio de maleza amenazando viviendas en pasaje 3", lat: "13.928000", lng: "-89.840000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80" }
-    ];
+    let reportesBD = [];
 
     function switchLoginType(type) {
       activeLoginType = type;
@@ -465,21 +521,11 @@
               return;
             }
 
-            if (padronMemoriaLocal[duiConGuion]) {
-              perfilExistenteGuardado = {
-                nombre_completo: padronMemoriaLocal[duiConGuion].nombre,
-                password: padronMemoriaLocal[duiConGuion].pass
-              };
-              campoNombre.value = padronMemoriaLocal[duiConGuion].nombre;
-              campoNombre.readOnly = true;
-              campoNombre.className = "w-full bg-emerald-950/80 border border-emerald-500/60 rounded-xl p-3.5 text-xs text-emerald-300 font-bold outline-none cursor-not-allowed";
-            } else {
-              perfilExistenteGuardado = null;
-              campoNombre.value = "";
-              campoNombre.placeholder = "DUI nuevo. Escribe tu nombre completo para registrarte...";
-              campoNombre.readOnly = false;
-              campoNombre.className = "w-full bg-slate-900 border border-blue-400 rounded-xl p-3.5 text-xs text-white font-bold outline-none focus:ring-2 focus:ring-blue-400";
-            }
+            perfilExistenteGuardado = null;
+            campoNombre.value = "";
+            campoNombre.placeholder = "DUI nuevo. Escribe tu nombre completo para registrarte...";
+            campoNombre.readOnly = false;
+            campoNombre.className = "w-full bg-slate-900 border border-blue-400 rounded-xl p-3.5 text-xs text-white font-bold outline-none focus:ring-2 focus:ring-blue-400";
           } else {
             isDuiValidGlobal = false;
             perfilExistenteGuardado = null;
@@ -750,7 +796,7 @@
           return;
         }
 
-        // VALIDACIÓN DE CONTRASEÑA EN SUPABASE Y MEMORIA LOCAL
+        // VALIDACIÓN DE CONTRASEÑA
         if (perfilExistenteGuardado && perfilExistenteGuardado.password) {
           if (perfilExistenteGuardado.password !== inputPassword) {
             alert("Contraseña incorrecta para el DUI ingresado.");
@@ -762,9 +808,7 @@
         currentUserDUI = inputDui;
         currentUserName = inputNombre;
 
-        // SE GUARDA EL NOMBRE Y LA CONTRASEÑA EN SUPABASE
         await supabaseRest.guardarPerfil(currentUserDUI, currentUserName, inputPassword, currentUserAvatar);
-        padronMemoriaLocal[currentUserDUI] = { nombre: currentUserName, pass: inputPassword };
 
         aplicarTemaCiudadano();
         document.getElementById('viewLogin').classList.add('hidden');
@@ -772,7 +816,7 @@
         document.getElementById('userInfo').classList.remove('hidden');
         document.getElementById('userInfo').classList.add('flex');
         document.getElementById('viewCiudadano').classList.remove('hidden');
-        renderCiudadano();
+        await renderCiudadano();
       } else {
         const inputCorreo = document.getElementById('loginIdentifier').value.trim().toLowerCase();
         const institucionSeleccionada = document.getElementById('loginRoleInst').value;
@@ -800,7 +844,7 @@
         document.getElementById('userInfo').classList.remove('hidden');
         document.getElementById('userInfo').classList.add('flex');
         document.getElementById('viewInstitucion').classList.remove('hidden');
-        renderInstitucion(currentRole);
+        await renderInstitucion(currentRole);
       }
     }
 
@@ -835,7 +879,7 @@
       document.getElementById('userInfo').classList.add('hidden');
     }
 
-    function guardarReporteCiudadano(e) {
+    async function guardarReporteCiudadano(e) {
       if (e) e.preventDefault();
       if (!coordsGPS) {
         alert("Por favor captura tu ubicación GPS antes de enviar.");
@@ -843,7 +887,6 @@
       }
 
       const nuevo = {
-        id: Date.now(),
         duiCiudadano: currentUserDUI,
         titulo: document.getElementById('repTitulo').value,
         ciudadano: `${currentUserName} (${currentUserDUI})`,
@@ -854,22 +897,22 @@
         lat: coordsGPS.lat,
         lng: coordsGPS.lng,
         estado: "Recibido",
-        fecha: "19/10/2026",
+        fecha: "21/10/2026",
         urlFoto: imagenBase64
       };
 
-      reportesBD.unshift(nuevo);
+      await supabaseRest.crearReporte(nuevo);
       alert(`Reporte enviado con éxito. El sistema le asignó la prioridad: ${nuevo.prioridad}`);
-      renderCiudadano();
+      await renderCiudadano();
       e.target.reset();
       coordsGPS = null;
       document.getElementById('gpsStatus').textContent = "Haz clic en el botón para capturar la posición.";
       document.getElementById('containerPreview').classList.add('hidden');
     }
 
-    // RENDERIZADO EXCLUSIVO FILTRADO POR EL DUI DEL CIUDADANO ACTIVO
-    function renderCiudadano() {
+    async function renderCiudadano() {
       const container = document.getElementById('listaCiudadano');
+      reportesBD = await supabaseRest.obtenerReportes();
       const misReportes = reportesBD.filter(r => r.duiCiudadano === currentUserDUI);
 
       if (misReportes.length === 0) {
@@ -889,7 +932,7 @@
       `).join('');
     }
 
-    function renderInstitucion(inst) {
+    async function renderInstitucion(inst) {
       const t = TEMAS_INSTITUCIONALES[inst];
 
       document.getElementById('appBody').className = `${t.bgBody} font-sans min-h-screen flex flex-col justify-between transition-colors duration-500`;
@@ -918,6 +961,8 @@
       document.getElementById('panelBodyTitle').className = `font-extrabold text-sm sm:text-lg font-serif-title border-b pb-2 ${t.bodyTitle}`;
       document.getElementById('panelBodySub').className = `text-[11px] sm:text-xs font-medium ${t.bodySub}`;
       document.getElementById('panelFilterBadge').className = `text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${t.filterBadge}`;
+
+      reportesBD = await supabaseRest.obtenerReportes();
 
       const misReportes = reportesBD
         .filter(r => r.institucion === inst)
@@ -983,12 +1028,9 @@
       }).join('');
     }
 
-    function cambiarEstado(id, nuevoEstado) {
-      const rep = reportesBD.find(r => r.id === id);
-      if (rep) {
-        rep.estado = nuevoEstado;
-        renderInstitucion(currentRole);
-      }
+    async function cambiarEstado(id, nuevoEstado) {
+      await supabaseRest.actualizarEstado(id, nuevoEstado);
+      await renderInstitucion(currentRole);
     }
 
     window.onload = function() {
