@@ -327,16 +327,18 @@
           return null;
         }
       },
-      async guardarPerfil(dui, nombre, avatar) {
+      // GUARDADO CON PERSISTENCIA DE CONTRASEÑA EN SUPABASE
+      async guardarPerfil(dui, nombre, pass, avatar) {
         try {
           const payload = {
             dui: dui,
             nombre_completo: nombre,
+            password: pass,
             municipio: "Ahuachapán Centro"
           };
           if (avatar) payload.avatar_url = avatar;
 
-          const res = await fetch(`${SUPABASE_URL}/rest/v1/perfiles`, {
+          await fetch(`${SUPABASE_URL}/rest/v1/perfiles`, {
             method: 'POST',
             headers: {
               'apikey': SUPABASE_KEY,
@@ -370,10 +372,11 @@
       "05544332-9": { nombre: "Roberto Antonio Gómez", pass: "123456" }
     };
 
+    // BASE GLOBAL DE REPORTES DE EJEMPLO INICIAL
     let reportesBD = [
-      { id: 1, titulo: "Poste de luz echando chispas", ciudadano: "Carlos Mendoza (01234567-8)", institucion: "CLESA", prioridad: "Importante", scoreAlgoritmo: 4, desc: "Cable suelto cerca de la cancha del Barrio El Centro", lat: "13.923000", lng: "-89.842000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80" },
-      { id: 2, titulo: "Acopio de basura en el Mercado Central", ciudadano: "María Ramos (08765432-1)", institucion: "Alcaldia", prioridad: "Leve", scoreAlgoritmo: 2, desc: "Desechos acumulados afectando comercios locales", lat: "13.921400", lng: "-89.845000", estado: "En proceso", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" },
-      { id: 3, titulo: "Fuego en maleza cerca de zona residencial", ciudadano: "Roberto Gómez (05544332-9)", institucion: "Bomberos", prioridad: "Emergencia 911", scoreAlgoritmo: 8, desc: "Incendio de maleza amenazando viviendas en pasaje 3", lat: "13.928000", lng: "-89.840000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80" }
+      { id: 1, duiCiudadano: "01234567-8", titulo: "Poste de luz echando chispas", ciudadano: "Carlos Mendoza (01234567-8)", institucion: "CLESA", prioridad: "Importante", scoreAlgoritmo: 4, desc: "Cable suelto cerca de la cancha del Barrio El Centro", lat: "13.923000", lng: "-89.842000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, duiCiudadano: "08765432-1", titulo: "Acopio de basura en el Mercado Central", ciudadano: "María Ramos (08765432-1)", institucion: "Alcaldia", prioridad: "Leve", scoreAlgoritmo: 2, desc: "Desechos acumulados afectando comercios locales", lat: "13.921400", lng: "-89.845000", estado: "En proceso", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" },
+      { id: 3, duiCiudadano: "05544332-9", titulo: "Fuego en maleza cerca de zona residencial", ciudadano: "Roberto Gómez (05544332-9)", institucion: "Bomberos", prioridad: "Emergencia 911", scoreAlgoritmo: 8, desc: "Incendio de maleza amenazando viviendas en pasaje 3", lat: "13.928000", lng: "-89.840000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80" }
     ];
 
     function switchLoginType(type) {
@@ -464,7 +467,8 @@
 
             if (padronMemoriaLocal[duiConGuion]) {
               perfilExistenteGuardado = {
-                nombre_completo: padronMemoriaLocal[duiConGuion].nombre
+                nombre_completo: padronMemoriaLocal[duiConGuion].nombre,
+                password: padronMemoriaLocal[duiConGuion].pass
               };
               campoNombre.value = padronMemoriaLocal[duiConGuion].nombre;
               campoNombre.readOnly = true;
@@ -746,11 +750,20 @@
           return;
         }
 
+        // VALIDACIÓN DE CONTRASEÑA EN SUPABASE Y MEMORIA LOCAL
+        if (perfilExistenteGuardado && perfilExistenteGuardado.password) {
+          if (perfilExistenteGuardado.password !== inputPassword) {
+            alert("Contraseña incorrecta para el DUI ingresado.");
+            return;
+          }
+        }
+
         currentRole = 'Ciudadano';
         currentUserDUI = inputDui;
         currentUserName = inputNombre;
 
-        await supabaseRest.guardarPerfil(currentUserDUI, currentUserName, currentUserAvatar);
+        // SE GUARDA EL NOMBRE Y LA CONTRASEÑA EN SUPABASE
+        await supabaseRest.guardarPerfil(currentUserDUI, currentUserName, inputPassword, currentUserAvatar);
         padronMemoriaLocal[currentUserDUI] = { nombre: currentUserName, pass: inputPassword };
 
         aplicarTemaCiudadano();
@@ -831,6 +844,7 @@
 
       const nuevo = {
         id: Date.now(),
+        duiCiudadano: currentUserDUI,
         titulo: document.getElementById('repTitulo').value,
         ciudadano: `${currentUserName} (${currentUserDUI})`,
         institucion: document.getElementById('repCategoria').value,
@@ -853,9 +867,17 @@
       document.getElementById('containerPreview').classList.add('hidden');
     }
 
+    // RENDERIZADO EXCLUSIVO FILTRADO POR EL DUI DEL CIUDADANO ACTIVO
     function renderCiudadano() {
       const container = document.getElementById('listaCiudadano');
-      container.innerHTML = reportesBD.map(r => `
+      const misReportes = reportesBD.filter(r => r.duiCiudadano === currentUserDUI);
+
+      if (misReportes.length === 0) {
+        container.innerHTML = `<div class="bg-white p-6 rounded-2xl border border-slate-200 text-center text-xs text-slate-500 italic">No has registrado ningún reporte aún. Completa el formulario de arriba para enviar tu primera incidencia.</div>`;
+        return;
+      }
+
+      container.innerHTML = misReportes.map(r => `
         <div class="bg-white p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm space-y-2 shadow-sm">
           <div class="flex justify-between items-center">
             <span class="font-bold text-slate-900 text-sm font-serif-title">${r.titulo}</span>
