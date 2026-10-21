@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComuniTechSV - Ahuachapán Centro</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tipografía -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-serif-title { font-family: 'Playfair Display', Georgia, serif; }
+  </style>
+</head>
+<body id="appBody" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500">
+
+  <!-- 1. BARRA DE NAVEGACIÓN PRINCIPAL -->
+  <header id="mainHeader" class="bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-2">
+      
+      <!-- LOGOTIPO -->
+      <div class="flex items-center gap-2.5">
+        <div id="brandIconBg" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shadow-sm transition-colors duration-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H7m4 0v10"></path></svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-white leading-none">
+            ComuniTech<span id="brandAccent" class="text-blue-400 transition-colors duration-500">SV</span>
+          </h1>
+          <p id="brandSub" class="text-[9px] sm:text-[10px] text-slate-300 font-bold tracking-wider uppercase mt-0.5">Ahuachapán Centro</p>
+        </div>
+      </div>
+
+      <!-- ESTADO DE SESIÓN -->
+      <div id="navRight" class="flex items-center gap-2">
+        <div id="publicContact" class="hidden lg:flex items-center gap-4 text-xs font-bold text-slate-200 border-r pr-4 border-slate-700">
+          <span class="flex items-center gap-1.5"><span class="text-red-400">Tel:</span> <span class="text-white">911</span></span>
+          <span class="flex items-center gap-1.5">Sede: <span class="text-white">Gobierno Municipal</span></span>
+        </div>
+
+        <div id="userInfo" class="hidden items-center gap-2 max-w-full">
+          <div id="userBadgeBox" class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 shadow-sm transition-all max-w-[170px] sm:max-w-none">
+            <img id="userAvatarHeader" src="https://ui-avatars.com/api/?name=Ciudadano&background=047857&color=fff" alt="Perfil" class="w-6 h-6 rounded-full object-cover border border-emerald-500 flex-shrink-0">
+            <div class="text-left leading-tight truncate">
+              <span id="userNameHeader" class="block text-[11px] sm:text-xs font-extrabold text-emerald-950 truncate">Carlos Mendoza</span>
+              <span id="userDuiHeader" class="block text-[9px] sm:text-[10px] font-mono text-emerald-800 truncate">DUI: 01234567-8</span>
+            </div>
+          </div>
+
+          <button type="button" id="btnCerrarSesion" class="bg-red-600 hover:bg-red-700 text-white text-[11px] sm:text-xs px-2.5 sm:px-3.5 py-1.5 rounded-xl font-extrabold transition shadow-md border border-red-500 cursor-pointer flex-shrink-0">
+            Salir
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="flex-grow">
+
+    <!-- 2. VISTA DE LOGIN -->
+    <section id="viewLogin" class="relative py-6 sm:py-10 px-4">
+      
+      <div class="max-w-5xl mx-auto rounded-3xl bg-slate-900 text-white p-5 sm:p-12 shadow-2xl overflow-hidden relative mb-10 border border-slate-800">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-blue-950/80 z-0"></div>
+        
+        <div class="relative z-10 text-center space-y-4 sm:space-y-6 max-w-3xl mx-auto">
+          <span class="inline-block text-[10px] sm:text-xs font-bold tracking-widest text-blue-400 uppercase bg-blue-950/80 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-blue-800/50">
+            Portal Ciudadano e Institucional
+          </span>
+          
+          <h2 class="text-xl sm:text-4xl md:text-5xl font-extrabold font-serif-title tracking-tight leading-tight text-white">
+            Sistema de Reportes de <span class="text-blue-400">Ahuachapán Centro</span>
+          </h2>
+          
+          <p class="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+            Ingresa tu DUI o correo institucional con tu contraseña para acceder al sistema.
+          </p>
+
+          <!-- TARJETA DE LOGIN -->
+          <div class="max-w-md mx-auto pt-2">
+            
+            <div class="flex rounded-2xl bg-slate-950/80 p-1.5 border border-slate-800 mb-4 shadow-inner">
+              <button type="button" id="btnTypeCiudadano" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-blue-600 text-white transition shadow cursor-pointer">
+                Soy Ciudadano (DUI)
+              </button>
+              <button type="button" id="btnTypeInstitucion" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition cursor-pointer">
+                Soy Institución
+              </button>
+            </div>
+
+            <form id="formLogin" class="bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/10 shadow-2xl text-left space-y-4">
+              
+              <!-- ENTRADA DUI / CORREO -->
+              <div id="boxFieldLogin">
+                <div class="flex justify-between items-center mb-1.5">
+                  <label id="lblLoginInput" class="block text-xs font-bold text-slate-200">Número de DUI *</label>
+                  <span id="duiStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">9 dígitos</span>
+                </div>
+                <input type="text" id="loginIdentifier" maxlength="10" required placeholder="00000000-0" autocomplete="off" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 sm:p-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition font-mono">
+              </div>
+
+              <!-- NOMBRE AUTOCOMPLETADO / REGISTRO NUEVO -->
+              <div id="boxAutoNombre">
+                <label class="block text-xs font-bold text-slate-200 mb-1.5">Nombre Completo Registrado *</label>
+                <input type="text" id="loginNombreAuto" required readonly placeholder="Ingresa tu DUI para verificar..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-xs text-slate-400 font-semibold outline-none transition cursor-not-allowed">
+              </div>
+
+              <!-- FOTO DE PERFIL (OPCIONAL) -->
+              <div id="boxAvatarUpload" class="space-y-1.5">
+                <label class="block text-xs font-bold text-slate-200">Foto de Perfil (Opcional)</label>
+                <div class="flex items-center gap-3">
+                  <img id="loginAvatarPreview" src="https://ui-avatars.com/api/?name=Ciudadano&background=0284c7&color=fff" alt="Avatar" class="w-9 h-9 rounded-full object-cover border border-slate-600">
+                  <input type="file" id="inputAvatarFile" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-blue-900/80 file:text-blue-200 font-bold cursor-pointer">
+                </div>
+              </div>
+
+              <!-- SELECTOR DE INSTITUCIÓN -->
+              <div id="boxSelectInstitucion" class="hidden">
+                <label class="block text-xs font-bold text-slate-200 mb-1.5">Institución Encargada</label>
+                <select id="loginRoleInst" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm text-white font-medium outline-none focus:border-blue-400 transition">
+                  <option value="Alcaldia">Alcaldía de Ahuachapán Centro</option>
+                  <option value="MOPT">MOPT / FOVIAL</option>
+                  <option value="CLESA">CLESA / AES</option>
+                  <option value="ANDA">ANDA</option>
+                  <option value="PNC">PNC (Policía Nacional Civil)</option>
+                  <option value="Bomberos">Cuerpo de Bomberos</option>
+                  <option value="MINSAL">MINSAL (Ministerio de Salud)</option>
+                </select>
+              </div>
+
+              <!-- CAMPO DE CONTRASEÑA -->
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <label class="block text-xs font-bold text-slate-200">Contraseña *</label>
+                  <span id="pwdHintBadge" class="text-[10px] text-slate-400">Requerida</span>
+                </div>
+                <input type="password" id="loginPassword" required placeholder="Ingresa tu contraseña" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 sm:p-3.5 text-sm text-white outline-none focus:border-blue-400 transition">
+              </div>
+
+              <button type="submit" id="btnSubmitLogin" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg transition transform active:scale-95 cursor-pointer">
+                Ingresar al Sistema
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. PANEL CIUDADANO -->
+    <section id="viewCiudadano" class="hidden max-w-5xl mx-auto p-3 sm:p-6 space-y-6">
+      <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl flex justify-between items-center">
+        <div class="space-y-1">
+          <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-emerald-300">Portal del Ciudadano</span>
+          <h2 class="text-lg sm:text-2xl font-extrabold font-serif-title">Crear Nuevo Reporte</h2>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/80 p-4 sm:p-8">
+        <form id="formReporteCiudadano" class="space-y-5">
+          
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Nombre o título del problema *</label>
+            <input type="text" id="repTitulo" required placeholder="Ej. Tubería rota en mi pasaje o bache en carretera" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div class="flex flex-col justify-end h-full">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Institución Encargada *</label>
+              <select id="repCategoria" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition">
+                <option value="">-- Seleccionar Institución --</option>
+                <option value="Alcaldia">Basura, Mercados, Parques, Alcantarillas (Alcaldía)</option>
+                <option value="MOPT">Carreteras, Baches Nacionales, Puentes (MOPT/FOVIAL)</option>
+                <option value="CLESA">Energía Eléctrica, Postes y Cables (CLESA)</option>
+                <option value="ANDA">Agua Potable y Alcantarillado Principal (ANDA)</option>
+                <option value="PNC">Inseguridad, Delitos y Orden Público (PNC / 911)</option>
+                <option value="Bomberos">Incendios, Desastres y Riesgo Inmediato (Bomberos)</option>
+                <option value="MINSAL">Focos de Contaminación e Insalubridad (MINSAL)</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col justify-end h-full">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">3. ¿Peligro físico o riesgo humano? *</label>
+              <select id="priesgo" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition">
+                <option value="0">No, solo es daño material o falta de servicio</option>
+                <option value="2">Riesgo indirecto (ej. bache profundo, cable colgando)</option>
+                <option value="5">Sí, peligro inminente a las personas</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col justify-end h-full">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">4. ¿A cuántos afecta aproximadamente? *</label>
+              <select id="palcance" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition">
+                <option value="1">Puntual (Frente a un hogar)</option>
+                <option value="2">Sectorial (Un pasaje o calle residencial)</option>
+                <option value="3">Masivo (Colonia entera, mercado o vía principal)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="boxPrioridadCalculada" class="p-3.5 sm:p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex flex-col sm:flex-row justify-between items-center gap-2 transition-all">
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+              <span class="text-xs font-bold text-slate-700">Prioridad calculada:</span>
+              <span id="txtPrioridadAuto" class="text-[11px] sm:text-xs font-black px-3 py-1 rounded-full bg-emerald-600 text-white">
+                PRIORIDAD BAJA
+              </span>
+            </div>
+            <span id="scorePrioridad" class="text-[11px] font-mono font-bold text-slate-500 w-full sm:w-auto text-right">Puntaje algorítmico: 1/9</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">5. Descripción y Puntos de Referencia *</label>
+            <textarea id="repDescripcion" rows="2" required placeholder="Escribe puntos de referencia claros (ej. frente a la tienda o cancha)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:bg-white focus:border-emerald-600 transition"></textarea>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">6. Adjuntar Fotografía de Evidencia *</label>
+            <input type="file" id="repFotoInput" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-3 file:rounded-xl file:border-0 file:bg-emerald-50 file:text-emerald-800 font-bold cursor-pointer">
+            <div id="containerPreview" class="hidden mt-2">
+              <img id="imgPreview" src="" alt="Previsualización" class="h-32 rounded-xl object-cover border border-slate-200 shadow-sm">
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="w-full sm:w-auto">
+              <span class="text-xs font-bold text-slate-800 block">7. Ubicación GPS de Ahuachapán Centro</span>
+              <p id="gpsStatus" class="text-xs text-slate-500">Haz clic en el botón para capturar la posición.</p>
+            </div>
+            <button type="button" id="btnCapturarGPS" class="w-full sm:w-auto bg-emerald-800 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl transition shadow cursor-pointer">
+              Capturar Ubicación GPS
+            </button>
+          </div>
+
+          <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-widest shadow-xl transition cursor-pointer">
+            Enviar Reporte Oficial
+          </button>
+        </form>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="font-bold font-serif-title text-slate-900 text-base sm:text-xl">Mis Reportes Enviados</h3>
+        <div id="listaCiudadano" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- 4. PANELES INSTITUCIONALES -->
+    <section id="viewInstitucion" class="hidden max-w-5xl mx-auto p-3 sm:p-6 space-y-6">
+      
+      <div id="panelHeader" class="p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl flex justify-between items-center transition-all duration-500 border">
+        <div class="space-y-1 max-w-2xl">
+          <span id="panelSub" class="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full inline-block mb-1"></span>
+          <h2 id="panelTitle" class="text-xl sm:text-3xl font-extrabold font-serif-title tracking-tight"></h2>
+          <p id="panelDesc" class="text-xs sm:text-sm leading-relaxed opacity-90 pt-1 font-normal"></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+        <div id="cardMetric1" class="p-4 sm:p-5 rounded-2xl border shadow-lg transition-all duration-500">
+          <p class="text-[10px] font-extrabold uppercase tracking-widest opacity-90">Incidencias Pendientes</p>
+          <p id="cntRecibidos" class="text-2xl sm:text-3xl font-black mt-1 font-serif-title">0</p>
+        </div>
+        <div id="cardMetric2" class="p-4 sm:p-5 rounded-2xl border shadow-lg transition-all duration-500">
+          <p class="text-[10px] font-extrabold uppercase tracking-widest opacity-90">En Proceso de Atención</p>
+          <p id="cntProceso" class="text-2xl sm:text-3xl font-black mt-1 font-serif-title">0</p>
+        </div>
+        <div id="cardMetric3" class="p-4 sm:p-5 rounded-2xl border shadow-lg transition-all duration-500">
+          <p class="text-[10px] font-extrabold uppercase tracking-widest opacity-90">Casos Resueltos</p>
+          <p id="cntResueltos" class="text-2xl sm:text-3xl font-black mt-1 font-serif-title">0</p>
+        </div>
+      </div>
+
+      <div id="panelBodyContainer" class="rounded-2xl sm:rounded-3xl shadow-2xl border p-4 sm:p-8 space-y-6 transition-all duration-500">
+        <div class="flex justify-between items-center border-b pb-4">
+          <div>
+            <h3 id="panelBodyTitle" class="font-extrabold text-sm sm:text-lg font-serif-title">Bandeja de Entrada</h3>
+            <p id="panelBodySub" class="text-[11px] sm:text-xs font-medium mt-0.5">Ordenado por prioridad algorítmica</p>
+          </div>
+          <span id="panelFilterBadge" class="text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Filtro Activo</span>
+        </div>
+        
+        <div id="listaInstitucional" class="space-y-4"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="mainFooter" class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800 transition-colors duration-500 mt-8">
+    <div class="max-w-5xl mx-auto px-4 space-y-1">
+      <p class="font-bold text-slate-200">ComuniTechSV &copy; 2026 — Sistema Territorial de Incidencias</p>
+      <p class="text-slate-500 text-[10px]">Municipio de Ahuachapán Centro, El Salvador.</p>
+    </div>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://nrogxfzblmwjoichdrxc.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yb2d4ZnpibG13am9pY2hkcnhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MTk5NjMsImV4cCI6MjEwNzk5NTk2M30.VcvexiZf1SK0Y7TRx2muSxulpk6647wPswjPPZKkqyc";
+
+    const CREDENCIALES_INSTITUCIONALES = {
+      "Alcaldia": { email: "alcaldia@ahuachapancentro.gob.sv", pass: "Alcaldia2026*" },
+      "MOPT": { email: "mopt@mopt.gob.sv", pass: "MoptFovial2026*" },
+      "CLESA": { email: "atencion@clesa.com.sv", pass: "ClesaAes2026*" },
+      "ANDA": { email: "reportes@anda.gob.sv", pass: "AndaAgua2026*" },
+      "PNC": { email: "emergencias@pnc.gob.sv", pass: "Pnc911Oficial*" },
+      "Bomberos": { email: "estacion@bomberos.gob.sv", pass: "Bomberos911*" },
+      "MINSAL": { email: "sanidad@minsal.gob.sv", pass: "MinsalSalud2026*" }
+    };
+
+    const supabaseRest = {
+      async buscarPerfil(dui) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/perfiles?dui=eq.${encodeURIComponent(dui)}`, {
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+          });
+          if (!res.ok) return null;
+          const data = await res.json();
+          return (data && data.length > 0) ? data[0] : null;
+        } catch (e) {
+          return null;
+        }
+      },
+      async guardarPerfil(dui, nombre, avatar) {
+        try {
+          const payload = {
+            dui: dui,
+            nombre_completo: nombre,
+            municipio: "Ahuachapán Centro"
+          };
+          if (avatar) payload.avatar_url = avatar;
+
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/perfiles`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=merge-duplicates'
+            },
+            body: JSON.stringify(payload)
+          });
+        } catch (e) {}
+      }
+    };
+
+    let activeLoginType = 'Ciudadano';
+    let currentRole = null;
+    let currentUserDUI = null;
+    let currentUserName = null;
+    let currentUserAvatar = "https://ui-avatars.com/api/?name=Ciudadano&background=0284c7&color=fff";
+    let isDuiValidGlobal = false;
+    let isEmailValidGlobal = false;
+    let perfilExistenteGuardado = null;
+
+    let coordsGPS = null;
+    let imagenBase64 = "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=600&q=80";
+    let gravedadCalculada = "Leve";
+    let scoreAlgoritmoGlobal = 1;
+
+    const padronMemoriaLocal = {
+      "01234567-8": { nombre: "Carlos Eduardo Mendoza", pass: "123456" },
+      "08765432-1": { nombre: "María José Ramos", pass: "123456" },
+      "05544332-9": { nombre: "Roberto Antonio Gómez", pass: "123456" }
+    };
+
+    let reportesBD = [
+      { id: 1, titulo: "Poste de luz echando chispas", ciudadano: "Carlos Mendoza (01234567-8)", institucion: "CLESA", prioridad: "Importante", scoreAlgoritmo: 4, desc: "Cable suelto cerca de la cancha del Barrio El Centro", lat: "13.923000", lng: "-89.842000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, titulo: "Acopio de basura en el Mercado Central", ciudadano: "María Ramos (08765432-1)", institucion: "Alcaldia", prioridad: "Leve", scoreAlgoritmo: 2, desc: "Desechos acumulados afectando comercios locales", lat: "13.921400", lng: "-89.845000", estado: "En proceso", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" },
+      { id: 3, titulo: "Fuego en maleza cerca de zona residencial", ciudadano: "Roberto Gómez (05544332-9)", institucion: "Bomberos", prioridad: "Emergencia 911", scoreAlgoritmo: 8, desc: "Incendio de maleza amenazando viviendas en pasaje 3", lat: "13.928000", lng: "-89.840000", estado: "Recibido", fecha: "19/10/2026", urlFoto: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80" }
+    ];
+
+    function switchLoginType(type) {
+      activeLoginType = type;
+      const btnC = document.getElementById('btnTypeCiudadano');
+      const btnI = document.getElementById('btnTypeInstitucion');
+      const lblInput = document.getElementById('lblLoginInput');
+      const inputIdent = document.getElementById('loginIdentifier');
+      const boxNombre = document.getElementById('boxAutoNombre');
+      const boxAvatar = document.getElementById('boxAvatarUpload');
+      const boxSelectInst = document.getElementById('boxSelectInstitucion');
+      const pwdHint = document.getElementById('pwdHintBadge');
+
+      document.getElementById('loginPassword').value = "";
+
+      if (type === 'Ciudadano') {
+        btnC.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-blue-600 text-white transition shadow cursor-pointer";
+        btnI.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition cursor-pointer";
+        lblInput.textContent = "Número de DUI *";
+        inputIdent.placeholder = "00000000-0";
+        inputIdent.setAttribute('maxlength', '10');
+        inputIdent.value = "";
+        boxNombre.classList.remove('hidden');
+        boxAvatar.classList.remove('hidden');
+        boxSelectInst.classList.add('hidden');
+        pwdHint.textContent = "Crea o ingresa tu clave";
+        procesarInputGeneral(inputIdent);
+      } else {
+        btnI.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-blue-600 text-white transition shadow cursor-pointer";
+        btnC.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition cursor-pointer";
+        lblInput.textContent = "Correo Institucional Oficial *";
+        inputIdent.placeholder = "oficial@alcaldia.gob.sv";
+        inputIdent.removeAttribute('maxlength');
+        inputIdent.value = "";
+        boxNombre.classList.add('hidden');
+        boxAvatar.classList.add('hidden');
+        boxSelectInst.classList.remove('hidden');
+        pwdHint.textContent = "Clave Institucional";
+        procesarInputGeneral(inputIdent);
+      }
+    }
+
+    function validarDUIElSalvador(depto) {
+      if (depto.length !== 9 || !/^\d+$/.test(depto)) return false;
+      const digitos = depto.split("").map(Number);
+      const verificadorIngresado = digitos[8];
+      let suma = 0;
+      for (let i = 0; i < 8; i++) {
+        suma += digitos[i] * (9 - i);
+      }
+      let digitoCalculado = 10 - (suma % 10);
+      if (digitoCalculado === 10) digitoCalculado = 0;
+      return digitoCalculado === verificadorIngresado;
+    }
+
+    async function procesarInputGeneral(input) {
+      const badge = document.getElementById('duiStatusBadge');
+      const campoNombre = document.getElementById('loginNombreAuto');
+
+      if (activeLoginType === 'Ciudadano') {
+        let soloNumeros = input.value.replace(/\D/g, "");
+        if (soloNumeros.length > 9) soloNumeros = soloNumeros.substring(0, 9);
+
+        if (soloNumeros.length > 8) {
+          input.value = soloNumeros.substring(0, 8) + "-" + soloNumeros.substring(8);
+        } else {
+          input.value = soloNumeros;
+        }
+
+        const duiConGuion = input.value;
+
+        if (soloNumeros.length === 9) {
+          const esValido = validarDUIElSalvador(soloNumeros);
+
+          if (esValido) {
+            isDuiValidGlobal = true;
+            badge.textContent = "DUI VÁLIDO";
+            badge.className = "text-[10px] font-black px-2 py-0.5 rounded bg-emerald-500 text-white shadow-xs";
+
+            const perfilBD = await supabaseRest.buscarPerfil(duiConGuion);
+            if (perfilBD && perfilBD.nombre_completo) {
+              perfilExistenteGuardado = perfilBD;
+              campoNombre.value = perfilBD.nombre_completo;
+              campoNombre.readOnly = true;
+              campoNombre.className = "w-full bg-emerald-950/80 border border-emerald-500/60 rounded-xl p-3.5 text-xs text-emerald-300 font-bold outline-none cursor-not-allowed";
+              return;
+            }
+
+            if (padronMemoriaLocal[duiConGuion]) {
+              perfilExistenteGuardado = {
+                nombre_completo: padronMemoriaLocal[duiConGuion].nombre
+              };
+              campoNombre.value = padronMemoriaLocal[duiConGuion].nombre;
+              campoNombre.readOnly = true;
+              campoNombre.className = "w-full bg-emerald-950/80 border border-emerald-500/60 rounded-xl p-3.5 text-xs text-emerald-300 font-bold outline-none cursor-not-allowed";
+            } else {
+              perfilExistenteGuardado = null;
+              campoNombre.value = "";
+              campoNombre.placeholder = "DUI nuevo. Escribe tu nombre completo para registrarte...";
+              campoNombre.readOnly = false;
+              campoNombre.className = "w-full bg-slate-900 border border-blue-400 rounded-xl p-3.5 text-xs text-white font-bold outline-none focus:ring-2 focus:ring-blue-400";
+            }
+          } else {
+            isDuiValidGlobal = false;
+            perfilExistenteGuardado = null;
+            badge.textContent = "DUI INVÁLIDO";
+            badge.className = "text-[10px] font-black px-2 py-0.5 rounded bg-red-600 text-white shadow-xs animate-pulse";
+            campoNombre.value = "";
+            campoNombre.placeholder = "El DUI no cumple el Módulo 11";
+            campoNombre.readOnly = true;
+            campoNombre.className = "w-full bg-slate-950/80 border border-red-500/50 rounded-xl p-3.5 text-xs text-red-300 font-medium outline-none cursor-not-allowed";
+          }
+        } else {
+          isDuiValidGlobal = false;
+          perfilExistenteGuardado = null;
+          badge.textContent = `${soloNumeros.length}/9 dígitos`;
+          badge.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+          campoNombre.value = "";
+          campoNombre.placeholder = "Ingresa tu DUI para verificar...";
+          campoNombre.readOnly = true;
+          campoNombre.className = "w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-400 font-semibold outline-none cursor-not-allowed";
+        }
+      } else {
+        const valCorreo = input.value.trim();
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (regexEmail.test(valCorreo)) {
+          isEmailValidGlobal = true;
+          badge.textContent = "CORREO VÁLIDO";
+          badge.className = "text-[10px] font-black px-2 py-0.5 rounded bg-emerald-500 text-white shadow-xs";
+        } else if (valCorreo.length > 0) {
+          isEmailValidGlobal = false;
+          badge.textContent = "CORREO INCOMPLETO";
+          badge.className = "text-[10px] font-black px-2 py-0.5 rounded bg-amber-600 text-white shadow-xs";
+        } else {
+          isEmailValidGlobal = false;
+          badge.textContent = "Requerido";
+          badge.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+        }
+      }
+    }
+
+    function cargarFotoPerfil(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentUserAvatar = evt.target.result;
+          document.getElementById('loginAvatarPreview').src = currentUserAvatar;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    const TEMAS_INSTITUCIONALES = {
+      Bomberos: {
+        titulo: "Cuerpo de Bomberos de El Salvador",
+        sub: "Emergencias, Incendios y Rescate",
+        desc: "Gestión de incendios, rescates estructurales y respuesta a riesgos de desastre",
+        bgBody: "bg-neutral-950",
+        headerNav: "bg-slate-900 text-white border-red-800",
+        brandSub: "text-yellow-400 font-bold",
+        footer: "bg-neutral-900 text-yellow-400/80 border-neutral-800",
+        badge: "bg-red-900 text-yellow-300 border border-yellow-400/80 font-black",
+        banner: "bg-gradient-to-r from-red-900 via-red-800 to-amber-700 text-white border-yellow-400",
+        subBadge: "bg-yellow-400 text-red-950 font-black border border-yellow-300",
+        card: "bg-red-950/90 text-yellow-300 border-yellow-400/40",
+        bodyContainer: "bg-red-950/80 border-red-800 text-yellow-100",
+        bodyTitle: "text-yellow-400 border-red-900",
+        bodySub: "text-yellow-200/90",
+        filterBadge: "bg-yellow-400/20 text-yellow-300 border border-yellow-400/40",
+        cardIncidencia: "bg-neutral-900 border-red-900 text-slate-100"
+      },
+      Alcaldia: {
+        titulo: "Alcaldía de Ahuachapán Centro",
+        sub: "Servicios Municipales y Aseo Urbano",
+        desc: "Gestión de desechos, mantenimiento de parques, mercados y alcantarillas municipales",
+        bgBody: "bg-emerald-950",
+        headerNav: "bg-slate-900 text-white border-emerald-800",
+        brandSub: "text-emerald-300 font-bold",
+        footer: "bg-emerald-950 text-emerald-300/80 border-emerald-900",
+        badge: "bg-emerald-800 text-white border border-emerald-400 font-black",
+        banner: "bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-900 text-white border-emerald-400",
+        subBadge: "bg-emerald-950 text-emerald-200 border border-emerald-400/40",
+        card: "bg-emerald-900/90 text-emerald-100 border-emerald-600/50",
+        bodyContainer: "bg-emerald-900/70 border-emerald-600/60 text-emerald-100",
+        bodyTitle: "text-emerald-200 border-emerald-700",
+        bodySub: "text-emerald-300/90",
+        filterBadge: "bg-emerald-400/20 text-emerald-200 border border-emerald-400/40",
+        cardIncidencia: "bg-emerald-950 border-emerald-700 text-emerald-100"
+      },
+      MOPT: {
+        titulo: "MOPT / FOVIAL",
+        sub: "Obras Públicas y Red Vial Nacional",
+        desc: "Mantenimiento de carreteras nacionales, baches en rutas principales, puentes y señalización",
+        bgBody: "bg-slate-950",
+        headerNav: "bg-slate-900 text-white border-orange-700",
+        brandSub: "text-orange-400 font-bold",
+        footer: "bg-slate-900 text-orange-400/80 border-slate-800",
+        badge: "bg-orange-900 text-white border border-orange-400/80 font-black",
+        banner: "bg-gradient-to-r from-orange-600 via-amber-600 to-slate-900 text-white border-orange-400",
+        subBadge: "bg-slate-950 text-orange-300 border border-orange-400/40",
+        card: "bg-slate-900 text-orange-100 border-orange-500/40",
+        bodyContainer: "bg-slate-900/90 border-orange-500/40 text-slate-100",
+        bodyTitle: "text-orange-300 border-slate-800",
+        bodySub: "text-slate-300",
+        filterBadge: "bg-orange-500/20 text-orange-300 border border-orange-500/40",
+        cardIncidencia: "bg-slate-950 border-slate-800 text-slate-100"
+      },
+      CLESA: {
+        titulo: "CLESA / AES El Salvador",
+        sub: "Red Eléctrica y Alumbrado Público",
+        desc: "Atención técnica a postes caídos, líneas de alta tensión y reparación de alumbrado público",
+        bgBody: "bg-zinc-950",
+        headerNav: "bg-slate-900 text-white border-amber-500",
+        brandSub: "text-amber-400 font-bold",
+        footer: "bg-zinc-900 text-amber-400/80 border-zinc-800",
+        badge: "bg-amber-400 text-zinc-950 font-black border border-amber-300",
+        banner: "bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-zinc-950 border-amber-300",
+        subBadge: "bg-zinc-950 text-amber-400 border border-amber-400/40",
+        card: "bg-zinc-900/90 text-amber-300 border-amber-500/40",
+        bodyContainer: "bg-zinc-900/80 border-amber-500/40 text-amber-100",
+        bodyTitle: "text-amber-400 border-zinc-800",
+        bodySub: "text-amber-200/90",
+        filterBadge: "bg-amber-500/20 text-amber-300 border border-amber-500/40",
+        cardIncidencia: "bg-zinc-950 border-zinc-800 text-zinc-100"
+      },
+      ANDA: {
+        titulo: "ANDA (Acueductos y Alcantarillados)",
+        sub: "Sistemas de Agua Potable",
+        desc: "Atención a fugas de agua potable y reparación de colectores principales",
+        bgBody: "bg-slate-950",
+        headerNav: "bg-slate-900 text-white border-cyan-700",
+        brandSub: "text-cyan-300 font-bold",
+        footer: "bg-slate-900 text-cyan-400/80 border-slate-800",
+        badge: "bg-cyan-900 text-cyan-100 border border-cyan-400/80 font-black",
+        banner: "bg-gradient-to-r from-cyan-800 via-sky-700 to-blue-900 text-white border-cyan-300",
+        subBadge: "bg-slate-950 text-cyan-300 border border-cyan-400/40",
+        card: "bg-cyan-950/80 text-cyan-100 border-cyan-500/40",
+        bodyContainer: "bg-cyan-950/60 border-cyan-800 text-slate-100",
+        bodyTitle: "text-cyan-300 border-cyan-900",
+        bodySub: "text-cyan-200/90",
+        filterBadge: "bg-cyan-400/20 text-cyan-300 border border-cyan-400/40",
+        cardIncidencia: "bg-slate-900 border-cyan-900 text-slate-100"
+      },
+      PNC: {
+        titulo: "Policía Nacional Civil (PNC)",
+        sub: "Seguridad Ciudadana y Orden Público",
+        desc: "Monitoreo de incidencias de seguridad, orden público y emergencias 911",
+        bgBody: "bg-slate-950",
+        headerNav: "bg-slate-900 text-white border-amber-400/50",
+        brandSub: "text-amber-300 font-bold",
+        footer: "bg-slate-900 text-amber-400/80 border-slate-800",
+        badge: "bg-blue-900 text-amber-300 border border-amber-400/80 font-black",
+        banner: "bg-gradient-to-r from-slate-950 via-blue-950 to-blue-900 text-amber-300 border-amber-400",
+        subBadge: "bg-amber-400 text-slate-950 font-black",
+        card: "bg-blue-950/80 text-amber-200 border-amber-400/40",
+        bodyContainer: "bg-blue-950/60 border-blue-800 text-slate-100",
+        bodyTitle: "text-amber-400 border-blue-900",
+        bodySub: "text-amber-200/90",
+        filterBadge: "bg-amber-400/20 text-amber-300 border border-amber-400/40",
+        cardIncidencia: "bg-slate-950 border-blue-900 text-slate-100"
+      },
+      MINSAL: {
+        titulo: "MINSAL (Ministerio de Salud)",
+        sub: "Salud Pública e Insalubridad",
+        desc: "Inspección de focos de contaminación e insalubridad comunitaria",
+        bgBody: "bg-sky-950",
+        headerNav: "bg-slate-900 text-white border-sky-600",
+        brandSub: "text-sky-300 font-bold",
+        footer: "bg-sky-950 text-sky-300/80 border-sky-900",
+        badge: "bg-sky-800 text-white border border-sky-300/80 font-black",
+        banner: "bg-gradient-to-r from-sky-800 via-teal-700 to-slate-900 text-white border-sky-300",
+        subBadge: "bg-sky-950 text-sky-200 border border-sky-300/40",
+        card: "bg-sky-900/80 text-sky-100 border-sky-500/40",
+        bodyContainer: "bg-sky-900/50 border-sky-700 text-sky-50",
+        bodyTitle: "text-sky-200 border-sky-800",
+        bodySub: "text-sky-200/90",
+        filterBadge: "bg-sky-300/20 text-sky-200 border border-sky-300/40",
+        cardIncidencia: "bg-sky-950 border-sky-800 text-sky-100"
+      }
+    };
+
+    function calcularPrioridadAutomatica() {
+      const ptsRiesgo = parseInt(document.getElementById('priesgo').value) || 0;
+      const ptsAlcance = parseInt(document.getElementById('palcance').value) || 1;
+      const institucion = document.getElementById('repCategoria').value;
+
+      let score = ptsRiesgo + ptsAlcance;
+      if (institucion === 'PNC' || institucion === 'Bomberos') score += 1;
+
+      scoreAlgoritmoGlobal = score;
+      const box = document.getElementById('boxPrioridadCalculada');
+      const txt = document.getElementById('txtPrioridadAuto');
+      const scoreLbl = document.getElementById('scorePrioridad');
+
+      scoreLbl.textContent = `Puntaje algorítmico: ${score}/9`;
+
+      if (score >= 6) {
+        gravedadCalculada = "Emergencia 911";
+        txt.textContent = "EMERGENCIA ALTA";
+        txt.className = "text-[11px] sm:text-xs font-black px-3 py-1 rounded-full bg-red-600 text-white shadow-sm animate-pulse";
+        box.className = "p-3.5 sm:p-4 rounded-2xl bg-red-50 border border-red-200 flex flex-col sm:flex-row justify-between items-center gap-2";
+      } else if (score >= 3) {
+        gravedadCalculada = "Importante";
+        txt.textContent = "PRIORIDAD MEDIA";
+        txt.className = "text-[11px] sm:text-xs font-black px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm";
+        box.className = "p-3.5 sm:p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row justify-between items-center gap-2";
+      } else {
+        gravedadCalculada = "Leve";
+        txt.textContent = "PRIORIDAD BAJA";
+        txt.className = "text-[11px] sm:text-xs font-black px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm";
+        box.className = "p-3.5 sm:p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex flex-col sm:flex-row justify-between items-center gap-2";
+      }
+    }
+
+    function previsualizarImagen(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          imagenBase64 = evt.target.result;
+          document.getElementById('imgPreview').src = imagenBase64;
+          document.getElementById('containerPreview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function capturarGPS() {
+      const lbl = document.getElementById('gpsStatus');
+      lbl.textContent = "Obteniendo señal GPS...";
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (p) => {
+            coordsGPS = { lat: p.coords.latitude.toFixed(6), lng: p.coords.longitude.toFixed(6) };
+            lbl.textContent = `GPS Detectado: Lat ${coordsGPS.lat}, Long ${coordsGPS.lng}`;
+            lbl.className = "text-xs text-emerald-700 font-bold";
+          },
+          () => {
+            coordsGPS = { lat: "13.921389", lng: "-89.845000" };
+            lbl.textContent = `GPS Ahuachapán Centro: Lat ${coordsGPS.lat}, Long ${coordsGPS.lng}`;
+            lbl.className = "text-xs text-amber-700 font-bold";
+          }
+        );
+      }
+    }
+
+    async function simularLogin(e) {
+      if (e) e.preventDefault();
+
+      const inputPassword = document.getElementById('loginPassword').value.trim();
+
+      if (!inputPassword) {
+        alert("Por favor ingresa tu contraseña.");
+        return;
+      }
+
+      if (activeLoginType === 'Ciudadano') {
+        const inputDui = document.getElementById('loginIdentifier').value;
+        const inputNombre = document.getElementById('loginNombreAuto').value.trim();
+
+        if (!isDuiValidGlobal) {
+          alert("Por favor ingresa un número de DUI válido de 9 dígitos.");
+          return;
+        }
+
+        if (!inputNombre) {
+          alert("Por favor escribe tu nombre completo para completar tu registro.");
+          return;
+        }
+
+        currentRole = 'Ciudadano';
+        currentUserDUI = inputDui;
+        currentUserName = inputNombre;
+
+        await supabaseRest.guardarPerfil(currentUserDUI, currentUserName, currentUserAvatar);
+        padronMemoriaLocal[currentUserDUI] = { nombre: currentUserName, pass: inputPassword };
+
+        aplicarTemaCiudadano();
+        document.getElementById('viewLogin').classList.add('hidden');
+        document.getElementById('publicContact').classList.add('hidden');
+        document.getElementById('userInfo').classList.remove('hidden');
+        document.getElementById('userInfo').classList.add('flex');
+        document.getElementById('viewCiudadano').classList.remove('hidden');
+        renderCiudadano();
+      } else {
+        const inputCorreo = document.getElementById('loginIdentifier').value.trim().toLowerCase();
+        const institucionSeleccionada = document.getElementById('loginRoleInst').value;
+        const credencialOficial = CREDENCIALES_INSTITUCIONALES[institucionSeleccionada];
+
+        if (!isEmailValidGlobal) {
+          alert("Por favor ingresa un correo electrónico con formato válido.");
+          return;
+        }
+
+        if (inputCorreo !== credencialOficial.email.toLowerCase()) {
+          alert(`El correo ingresado no corresponde a la institución ${institucionSeleccionada}.\nEl correo oficial es: ${credencialOficial.email}`);
+          return;
+        }
+
+        if (inputPassword !== credencialOficial.pass) {
+          alert("Contraseña institucional incorrecta.");
+          return;
+        }
+
+        currentRole = institucionSeleccionada;
+
+        document.getElementById('viewLogin').classList.add('hidden');
+        document.getElementById('publicContact').classList.add('hidden');
+        document.getElementById('userInfo').classList.remove('hidden');
+        document.getElementById('userInfo').classList.add('flex');
+        document.getElementById('viewInstitucion').classList.remove('hidden');
+        renderInstitucion(currentRole);
+      }
+    }
+
+    function aplicarTemaCiudadano() {
+      document.getElementById('appBody').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+      document.getElementById('mainHeader').className = "bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md transition-all duration-500";
+      document.getElementById('mainFooter').className = "bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800 transition-colors duration-500 mt-8";
+      document.getElementById('brandIconBg').className = "w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shadow-sm transition-colors duration-500";
+      document.getElementById('brandAccent').className = "text-blue-400 transition-colors duration-500";
+      document.getElementById('brandSub').className = "text-[9px] sm:text-[10px] text-slate-300 font-bold tracking-wider uppercase mt-0.5";
+
+      document.getElementById('userNameHeader').textContent = currentUserName;
+      document.getElementById('userDuiHeader').textContent = `DUI: ${currentUserDUI}`;
+      document.getElementById('userAvatarHeader').src = currentUserAvatar;
+    }
+
+    function cerrarSesion() {
+      currentRole = null;
+      currentUserDUI = null;
+      currentUserName = null;
+      currentUserAvatar = "https://ui-avatars.com/api/?name=Ciudadano&background=0284c7&color=fff";
+      isDuiValidGlobal = false;
+      isEmailValidGlobal = false;
+      perfilExistenteGuardado = null;
+
+      document.getElementById('loginPassword').value = "";
+      aplicarTemaCiudadano();
+      document.getElementById('publicContact').classList.remove('hidden');
+      document.getElementById('viewLogin').classList.remove('hidden');
+      document.getElementById('viewCiudadano').classList.add('hidden');
+      document.getElementById('viewInstitucion').classList.add('hidden');
+      document.getElementById('userInfo').classList.add('hidden');
+    }
+
+    function guardarReporteCiudadano(e) {
+      if (e) e.preventDefault();
+      if (!coordsGPS) {
+        alert("Por favor captura tu ubicación GPS antes de enviar.");
+        return;
+      }
+
+      const nuevo = {
+        id: Date.now(),
+        titulo: document.getElementById('repTitulo').value,
+        ciudadano: `${currentUserName} (${currentUserDUI})`,
+        institucion: document.getElementById('repCategoria').value,
+        prioridad: gravedadCalculada,
+        scoreAlgoritmo: scoreAlgoritmoGlobal,
+        desc: document.getElementById('repDescripcion').value,
+        lat: coordsGPS.lat,
+        lng: coordsGPS.lng,
+        estado: "Recibido",
+        fecha: "19/10/2026",
+        urlFoto: imagenBase64
+      };
+
+      reportesBD.unshift(nuevo);
+      alert(`Reporte enviado con éxito. El sistema le asignó la prioridad: ${nuevo.prioridad}`);
+      renderCiudadano();
+      e.target.reset();
+      coordsGPS = null;
+      document.getElementById('gpsStatus').textContent = "Haz clic en el botón para capturar la posición.";
+      document.getElementById('containerPreview').classList.add('hidden');
+    }
+
+    function renderCiudadano() {
+      const container = document.getElementById('listaCiudadano');
+      container.innerHTML = reportesBD.map(r => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm space-y-2 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-900 text-sm font-serif-title">${r.titulo}</span>
+            <span class="bg-slate-100 font-bold px-2.5 py-0.5 rounded-full text-slate-700 text-[11px]">${r.estado}</span>
+          </div>
+          <p class="text-slate-600"><strong>Institución:</strong> ${r.institucion} | <strong>Prioridad:</strong> ${r.prioridad}</p>
+          <p class="text-slate-400 font-mono text-[11px]">Ubicación: Lat ${r.lat}, Long ${r.lng} | Fecha: ${r.fecha}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderInstitucion(inst) {
+      const t = TEMAS_INSTITUCIONALES[inst];
+
+      document.getElementById('appBody').className = `${t.bgBody} font-sans min-h-screen flex flex-col justify-between transition-colors duration-500`;
+      document.getElementById('mainHeader').className = `${t.headerNav} shadow-xl sticky top-0 z-50 border-b transition-all duration-500`;
+      document.getElementById('mainFooter').className = `${t.footer} py-6 text-center text-xs border-t transition-colors duration-500 mt-8`;
+      document.getElementById('brandIconBg').className = "w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-950 text-white flex items-center justify-center font-black shadow-inner";
+      document.getElementById('brandAccent').className = "text-amber-400";
+      document.getElementById('brandSub').className = `text-[9px] sm:text-[10px] font-bold tracking-wider uppercase mt-0.5 ${t.brandSub}`;
+
+      document.getElementById('userNameHeader').textContent = `Panel: ${inst}`;
+      document.getElementById('userDuiHeader').textContent = `Acceso Oficial`;
+      document.getElementById('userAvatarHeader').src = `https://ui-avatars.com/api/?name=${inst}&background=0f172a&color=f59e0b`;
+
+      const banner = document.getElementById('panelHeader');
+      banner.className = `p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl flex justify-between items-center transition-all duration-500 ${t.banner}`;
+      document.getElementById('panelTitle').textContent = t.titulo;
+      document.getElementById('panelSub').textContent = t.sub;
+      document.getElementById('panelSub').className = `text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full inline-block mb-1 ${t.subBadge}`;
+      document.getElementById('panelDesc').textContent = t.desc;
+
+      ['cardMetric1', 'cardMetric2', 'cardMetric3'].forEach(id => {
+        document.getElementById(id).className = `p-4 sm:p-5 rounded-2xl border shadow-lg transition-all duration-500 ${t.card}`;
+      });
+
+      document.getElementById('panelBodyContainer').className = `rounded-2xl sm:rounded-3xl shadow-2xl border p-4 sm:p-8 space-y-6 transition-all duration-500 ${t.bodyContainer}`;
+      document.getElementById('panelBodyTitle').className = `font-extrabold text-sm sm:text-lg font-serif-title border-b pb-2 ${t.bodyTitle}`;
+      document.getElementById('panelBodySub').className = `text-[11px] sm:text-xs font-medium ${t.bodySub}`;
+      document.getElementById('panelFilterBadge').className = `text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${t.filterBadge}`;
+
+      const misReportes = reportesBD
+        .filter(r => r.institucion === inst)
+        .sort((a, b) => (b.scoreAlgoritmo || 0) - (a.scoreAlgoritmo || 0));
+
+      document.getElementById('cntRecibidos').textContent = misReportes.filter(r => r.estado === 'Recibido').length;
+      document.getElementById('cntProceso').textContent = misReportes.filter(r => r.estado === 'En proceso').length;
+      document.getElementById('cntResueltos').textContent = misReportes.filter(r => r.estado === 'Resuelto').length;
+
+      const container = document.getElementById('listaInstitucional');
+
+      if (misReportes.length === 0) {
+        container.innerHTML = `<p class="text-xs sm:text-sm opacity-90 italic text-center py-8 text-slate-200">No hay incidencias actualmente en esta bandeja.</p>`;
+        return;
+      }
+
+      container.innerHTML = misReportes.map(r => {
+        let borderTag = r.prioridad === 'Emergencia 911' ? 'border-red-500' : (r.prioridad === 'Importante' ? 'border-amber-400' : 'border-emerald-400');
+        let badgeColor = r.prioridad === 'Emergencia 911' ? 'bg-red-500/30 text-red-100 border-red-400 font-bold animate-pulse' : (r.prioridad === 'Importante' ? 'bg-amber-500/30 text-amber-100 border-amber-400 font-bold' : 'bg-emerald-500/30 text-emerald-100 border-emerald-400 font-bold');
+
+        return `
+          <div class="p-4 sm:p-6 rounded-2xl border-l-4 ${borderTag} border space-y-3 shadow-xl ${t.cardIncidencia}">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-[9px] sm:text-[10px] font-black px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${badgeColor}">
+                  ${r.prioridad} (Puntaje: ${r.scoreAlgoritmo}/9)
+                </span>
+                <h4 class="font-bold text-sm sm:text-lg mt-1 font-serif-title">${r.titulo}</h4>
+                <p class="text-xs opacity-90 mt-0.5">Reportado por: <strong>${r.ciudadano}</strong></p>
+              </div>
+              <span class="text-[10px] opacity-70 font-medium">${r.fecha}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="sm:col-span-2 space-y-2 text-xs sm:text-sm opacity-95">
+                <p class="leading-relaxed">${r.desc}</p>
+                <div class="pt-1">
+                  <a href="https://maps.google.com/?q=${r.lat},${r.lng}" target="_blank" class="inline-flex items-center gap-1.5 text-blue-300 hover:text-blue-200 font-bold bg-blue-950 px-3 py-1.5 rounded-xl border border-blue-700 text-xs">
+                    <span>Abrir en Google Maps:</span>
+                    <span class="font-mono text-[11px]">${r.lat}, ${r.lng}</span>
+                  </a>
+                </div>
+              </div>
+
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider opacity-70 block mb-1">Evidencia Fotográfica:</span>
+                <a href="${r.urlFoto}" target="_blank">
+                  <img src="${r.urlFoto}" alt="Evidencia" class="w-full h-28 sm:h-32 rounded-xl object-cover border border-slate-700 hover:opacity-90 transition cursor-pointer">
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2.5 border-t border-slate-800/40 text-xs">
+              <span class="font-bold opacity-90">Estado de Atención:</span>
+              <select onchange="cambiarEstado(${r.id}, this.value)" class="border rounded-xl p-1.5 bg-slate-900 text-white font-bold outline-none text-xs">
+                <option value="Recibido" ${r.estado==='Recibido'?'selected':''}>Recibido</option>
+                <option value="En proceso" ${r.estado==='En proceso'?'selected':''}>En proceso</option>
+                <option value="Resuelto" ${r.estado==='Resuelto'?'selected':''}>Resuelto</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function cambiarEstado(id, nuevoEstado) {
+      const rep = reportesBD.find(r => r.id === id);
+      if (rep) {
+        rep.estado = nuevoEstado;
+        renderInstitucion(currentRole);
+      }
+    }
+
+    window.onload = function() {
+      const inputIdent = document.getElementById('loginIdentifier');
+
+      inputIdent.addEventListener('keydown', function(e) {
+        if (activeLoginType === 'Ciudadano') {
+          const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
+          if (teclasPermitidas.includes(e.key) || e.ctrlKey || e.metaKey) return;
+          if (!/^\d$/.test(e.key)) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }
+      });
+
+      inputIdent.addEventListener('input', function() {
+        procesarInputGeneral(this);
+      });
+
+      document.getElementById('btnTypeCiudadano').onclick = () => switchLoginType('Ciudadano');
+      document.getElementById('btnTypeInstitucion').onclick = () => switchLoginType('Institucion');
+      document.getElementById('formLogin').onsubmit = simularLogin;
+      document.getElementById('btnCerrarSesion').onclick = cerrarSesion;
+
+      document.getElementById('formReporteCiudadano').onsubmit = guardarReporteCiudadano;
+      document.getElementById('inputAvatarFile').onchange = cargarFotoPerfil;
+      document.getElementById('repFotoInput').onchange = previsualizarImagen;
+      document.getElementById('btnCapturarGPS').onclick = capturarGPS;
+
+      document.getElementById('repCategoria').onchange = calcularPrioridadAutomatica;
+      document.getElementById('priesgo').onchange = calcularPrioridadAutomatica;
+      document.getElementById('palcance').onchange = calcularPrioridadAutomatica;
+    };
+  </script>
+</body>
+</html>
